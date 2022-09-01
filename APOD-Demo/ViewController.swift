@@ -91,7 +91,9 @@ extension ViewController {
             do {
                 let info = try await AsyncFunctionAPI.fetchPicture(from: url)
                 let image = try await AsyncFunctionAPI.loadImage(from: info.url)
-                updateUI(with: info, image: image)
+                await MainActor.run {
+                  updateUI(with: info, image: image)
+                }
             } catch {
                 print("Error fetching picture info:", error.localizedDescription)
             }
